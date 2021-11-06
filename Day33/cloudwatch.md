@@ -5,12 +5,18 @@
 - You have the sample tomcat application.Download it to the tomcat windows machine.
   Download -  https://github.com/cloudnloud/AWS-Solution-Architect-Training/blob/129231177f6f3c9b0f4590306ffd7aaffd3e9b3a/Day33/gameoflife.war
 
-## Step-1: Pre-requisites
  
 ## Step-2: CloudWatch
  - **What is CloudWatch:** Amazon CloudWatch is a monitoring and management service that provides data and actionable insights for AWS, hybrid, and on-premises applications and infrastructure resources. With CloudWatch, you can collect and access all your performance and operational data in form of logs and metrics from a single platform. 
 
-
+## Step-2: CloudWatch Implementation Steps
+ - ** Please find an overview of the steps to install\configure the CloudWatch Agent on Windows Instance per your request as below:**
+     1.	Attach the required IAM permission policy to the EC2 instance profile [1].
+     2.	Download\install CloudWatch Unified Agent on EC2 instance [2]
+     3.	Configure CloudWatch Agent to publish Metrics\Logs to CloudWatch Console [3] and [4].
+     4.	Run CloudWatch Agent [5].
+ 
+ 
 ## Step-2.1: Setup Centos 7 Machine
 
 In AWS - launch instances and search the below AMI ID.
