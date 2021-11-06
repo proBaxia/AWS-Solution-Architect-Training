@@ -1,14 +1,15 @@
 # AWS CloudWatch Logging
 
-## Step-1: Introduction to ECR
--  For introduction slides refer the Slides
+## Step-1: Pre-requisites
+- You must have activated aws.amazon.com account.
+- You have the sample tomcat application.Download it to the tomcat windows machine.
+  Download -  https://github.com/cloudnloud/AWS-Solution-Architect-Training/blob/129231177f6f3c9b0f4590306ffd7aaffd3e9b3a/Day33/gameoflife.war
 
-## Step-2: ECR Terminology
- - **Registry:** An  ECR registry is provided to each AWS account; we can create image repositories in our registry and store images in them. 
-- **Repository:** An ECR image repository contains our Docker images. 
-- **Repository policy:** We can control access to our repositories and the images within them with repository policies. 
-- **Authorization token:** Our Docker client must authenticate to Amazon ECR registries as an AWS user before it can push and pull images. The AWS CLI get-login command provides us with authentication credentials to pass to Docker. 
-- **Image:** We can push and pull container images to our repositories. We can use these images locally on your development system, or we can use them in Amazon ECS task definitions. 
+## Step-1: Pre-requisites
+ 
+## Step-2: CloudWatch
+ - **What is CloudWatch:** Amazon CloudWatch is a monitoring and management service that provides data and actionable insights for AWS, hybrid, and on-premises applications and infrastructure resources. With CloudWatch, you can collect and access all your performance and operational data in form of logs and metrics from a single platform. 
+
 
 ## Step-2.1: Setup Centos 7 Machine
 
