@@ -15,139 +15,74 @@
      2.	Download\install CloudWatch Unified Agent on EC2 instance [2]
      3.	Configure CloudWatch Agent to publish Metrics\Logs to CloudWatch Console [3] and [4].
      4.	Run CloudWatch Agent [5].
- 
- 
-## Step-2.1: Setup Centos 7 Machine
-
-In AWS - launch instances and search the below AMI ID.
-
-Centos 7 Image ID - ami-0015b9ef68c77328d
-
-Docker Installation in CentOS
-
-sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-
-sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
 
-sudo yum install docker-ce docker-ce-cli containerd.io -y
+## Step-2.1: Attach IAM policy to EC2 Machine
 
-sudo systemctl start docker
+	1.	Sign in to the AWS Management Console and open the IAM console at https://console.aws.amazon.com/iam 
+	
+	2. Create IAM Role.
+         In Select type of trusted entity --> AWS Service --> Common UseCase --> Choose EC2 --> Click Next: Permissions --> search CloudWatchAgentServerPolicy and attach it --> save this role as CloudWatchAgentServerRole
+  
 
-sudo systemctl enable docker
+     
+     3.	In the navigation pane on the left, choose Roles
+     4.	Choose the role that is attached as an Instance Profile to your EC2 Instance in question.
+     5.	Click on “Attach policies” button.
+     6.	In the list of policies, search for a policy with the name of “CloudWatchAgentServerPolicy”.
+     7.	Select the check box next to CloudWatchAgentServerPolicy. 
+     8.	Click on “Attach Policy” button.
+
+
+## Step-3: Install Cloudwatch Agent Software
 
 
 
-## Step-3: Pre-requisites
-- Install required CLI on the desktop where we build our docker images.
-- **Install AWS CLI V1.x**
-   - Documentation Reference: https://aws.amazon.com/cli/
+## Step-4: Install Cloudwatch Agent Software
+
+     - Download the Agent :
+       https://s3.amazonaws.com/amazoncloudwatch-agent/windows/amd64/latest/amazon-cloudwatch-agent.msi 
+     - 	Install the Agent
+     - 	Check if it is installed (Status should be Stopped)
+     -  Run PowerShell as Administrator
 ```
-Mac & Linux
-Requires Python 2.6.5 or higher.
-yum install wget git awscli -y
-```   
-- **Install AWS CLI V2.x**
-   - Documentation Reference: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
-```
-Mac OS (for all users)
-$ curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-$ sudo installer -pkg AWSCLIV2.pkg -target /
-$ which aws
-/usr/local/bin/aws 
-$ aws --version
-aws-cli/2.0.6 Python/3.7.4 Darwin/18.7.0 botocore/2.0.0
-```   
-
-- **Install Docker CLI** 
-   - Docker Desktop for MAC: https://docs.docker.com/docker-for-mac/install/
-   - Docker Desktop for Windows: https://docs.docker.com/docker-for-windows/install/
-   - Docker on Linux: https://docs.docker.com/install/linux/docker-ce/centos/
-
-- **On AWS Console**
-   - Create Authorization Token for admin user if not created
-- **Configure AWS CLI with Authorization Token**
-```
-aws configure
-AWS Access Key ID: ****
-AWS Secret Access Key: ****
-Default Region Name: ap-south-1
-```   
-
-## Step-4: Create ECR Repository
-- Create simple ECR repo via AWS Console 
-- Repository Name: aws-ecr-nginx
-- Explore ECR console. 
-- **Create ECR Repository using AWS CLI**
-```
-aws ecr create-repository --repository-name aws-ecr-nginx --region us-east-1
-
+cd “C:\Program Files\Amazon\AmazonCloudWatchAgent\”
+.\amazon-cloudwatch-agent-ctl.ps1 -a status
 ```
 
-## Step-5: Create Docker Image locally
-```
-wget https://raw.githubusercontent.com/cloudnloud/AWS-Solution-Architect-Training/main/Day30/index.html
-wget https://raw.githubusercontent.com/cloudnloud/AWS-Solution-Architect-Training/main/Day30/Dockerfile
-```
+## Step-5: Configure CloudWatch Agent
+
+     - Configure CloudWatch Agent to publish Metrics\Logs to CloudWatch Console), please run the below follow the below instructions:
+     - You can create the CloudWatch Agent Configuration File either automatically [3] or manually [4].
+
 
 ```
-docker build -t 456774515540.dkr.ecr.us-east-1.amazonaws.com/aws-ecr-nginx:1.0.0 . 
-docker run -dit --name cloudnloud-web -p 80:80 456774515540.dkr.ecr.us-east-1.amazonaws.com/aws-ecr-nginx:1.0.0
+cd “C:\Program Files\Amazon\AmazonCloudWatchAgent\”
+
+amazon-cloudwatch-agent-config-wizard C:\Program Files\Amazon\AmazonCloudWatchAgent\ folder
+```
+
+- answer one by one and finally config.json file will be created.
+- Make sure config.json file is placed into 
+
+
+## Step-6: Push the updated Config to Cloudwatch Agent
+
+
+     - Run CloudWatch Agent), please run the below command in order:
+     - Run PowerShell as Administrator
+```
+cd “C:\Program Files\Amazon\AmazonCloudWatchAgent\”
+```
+
+     -	Run the Agent with fetch-config to instruct the agent to take the new configuration form the JSON file.
+```
+.\amazon-cloudwatch-agent-ctl.ps1 -a fetch-config -m ec2 -c file:config.json -s
 ```
 
 
-## Step-6: Push Docker Image to AWS ECR
-- Push the docker image to ECR
-- **AWS CLI Version 1.x**
-```
-AWS CLI Version 1.x
-aws ecr get-login --no-include-email --region <your-region>
-aws ecr get-login --no-include-email --region us-east-1
-Use "docker login" command from previous command output
-docker push 456774515540.dkr.ecr.us-east-1.amazonaws.com/aws-ecr-nginx:1.0.0
-```
-- **AWS CLI Version 2.x**
-```
-AWS CLI Version 2.x
-aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-ecr-repo-url>
-
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 456774515540.dkr.ecr.us-east-1.amazonaws.com/aws-ecr-nginx
-
-docker push 456774515540.dkr.ecr.us-east-1.amazonaws.com/aws-ecr-nginx:1.0.0
-```
 
 
-## Step-7: Using ECR Image with Amazon ECS
-- Create Task Definition: aws-ecr-nginx
-   - Container Image: 456774515540.dkr.ecr.us-east-1.amazonaws.com/aws-ecr-nginx:1.0.0
-   - Container Port - 80
-- Create Service: aws-ecr-nginx-svc
-- Test it
+## Step-7: Check the log Groups in AWS.AMAZON.Com - Cloudwatch
 
-
-## Now delete all images and containers (Stop and Delete)
-
-
-## Step-8: To stop any running container
-```
-docker stop $(docker ps -q)  
-```
-
-## Step-9: To remove all the containers
-
-```
-docker rm $(docker ps -a -q)
-```
-
-## Step-10: To remove all docker images in a single command
-```
-docker rmi $(docker images -a -q)
-```
-
-## Step-11: Now you have clean environment
-
-```
-docker pull cloudnloud/nginxapp2:latest
-
-docker run -dit --name cloudnloud-web -p 80:80 cloudnloud/nginxapp2:latest
-```
+-  Explore cloudwatch ewly created log groups and logs etc.
