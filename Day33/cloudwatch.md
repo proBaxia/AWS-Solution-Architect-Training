@@ -34,11 +34,31 @@
      8.	Click on “Attach Policy” button.
 
 
-## Step-3: Install Cloudwatch Agent Software
+## Step-3: Install Java
+     - Download the JAVA :
+       https://github.com/cloudnloud/AWS-Solution-Architect-Training/blob/main/Day33/JavaSetup8u311.exe?raw=true
+	   
+
+## Step-4: Install Apache Tomcat
+     - Download the Tomcat :
+       https://github.com/cloudnloud/AWS-Solution-Architect-Training/blob/main/Day33/apache-tomcat-9.0.54.exe?raw=true
+	   
+     - install tomcat with username - admin / password - adminadmin
+	 - Download the sample application.
+	      https://github.com/cloudnloud/AWS-Solution-Architect-Training/blob/main/Day33/gameoflife.war?raw=true
+
+     - Log file location
+	 
+	 C:\Program Files (x86)\Apache Software Foundation\Tomcat 8.5\logs
+
+      tomcat8-stderr.2021-11-06.log
+      catalina.2021-11-06.log
+
+     C:\Program Files (x86)\Apache Software Foundation\Tomcat 8.5\logs\**.log
+     C:\Program Files (x86)\Apache Software Foundation\Tomcat 8.5\logs\catalina.2021-11-06.log
 
 
-
-## Step-4: Install Cloudwatch Agent Software
+## Step-5: Install Cloudwatch Agent Software
 
      - Download the Agent :
        https://s3.amazonaws.com/amazoncloudwatch-agent/windows/amd64/latest/amazon-cloudwatch-agent.msi 
@@ -50,7 +70,7 @@ cd “C:\Program Files\Amazon\AmazonCloudWatchAgent\”
 .\amazon-cloudwatch-agent-ctl.ps1 -a status
 ```
 
-## Step-5: Configure CloudWatch Agent
+## Step-6: Configure CloudWatch Agent
 
      - Configure CloudWatch Agent to publish Metrics\Logs to CloudWatch Console), please run the below follow the below instructions:
      - You can create the CloudWatch Agent Configuration File either automatically [3] or manually [4].
@@ -59,14 +79,17 @@ cd “C:\Program Files\Amazon\AmazonCloudWatchAgent\”
 ```
 cd “C:\Program Files\Amazon\AmazonCloudWatchAgent\”
 
-amazon-cloudwatch-agent-config-wizard C:\Program Files\Amazon\AmazonCloudWatchAgent\ folder
+amazon-cloudwatch-agent-config-wizard 
 ```
 
+
+
 - answer one by one and finally config.json file will be created.
-- Make sure config.json file is placed into 
+- Make sure config.json file is placed into C:\Program Files\Amazon\AmazonCloudWatchAgent\ folder
+- make sure each log file is part of different log stream
+- make sure all log stream is grouped under one single log group for easy management.
 
-
-## Step-6: Push the updated Config to Cloudwatch Agent
+## Step-7: Push the updated Config to Cloudwatch Agent
 
 
      - Run CloudWatch Agent), please run the below command in order:
@@ -83,6 +106,6 @@ cd “C:\Program Files\Amazon\AmazonCloudWatchAgent\”
 
 
 
-## Step-7: Check the log Groups in AWS.AMAZON.Com - Cloudwatch
+## Step-8: Check the log Groups in AWS.AMAZON.Com - Cloudwatch
 
 -  Explore cloudwatch ewly created log groups and logs etc.
