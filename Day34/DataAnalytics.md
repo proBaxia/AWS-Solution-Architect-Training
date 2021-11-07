@@ -70,7 +70,7 @@
 - **Glue** can only execute jobs using Scala or Python code. **Lambda** can execute code from triggers by other services (SQS, Kaftka, DynamoDB, Kinesis, CloudWatch, etc.) vs. Glue which can be triggered by lambda events, another Glue jobs, manually or from a schedule.
 
 ## Sample DataSet
-     - refer the csv file
+     - refer the csv files
 	 
 # AWS Data Flow and Services
 	 - refer the data workflow  
