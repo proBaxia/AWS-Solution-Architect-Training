@@ -15,6 +15,23 @@
      - Predictive Analytics.
      - Cyber Analytics.
 
+## Data Anlytics Types
+
+- **Prescriptive Analytics** is a form of advanced analytics which examines data or content to answer the question “What should be done?” or “What can we do to make __ happen?”, and is characterized by techniques such as graph analysis, simulation, complex event processing, neural networks, recommendation engines,
+
+## Diagnostic analytics
+- **Diagnostic analytics** is a form of advanced analytics that examines data or content to answer the question, “Why did it happen?” It is characterized by techniques such as drill-down, data discovery, data mining and correlations.
+
+
+## Descriptive Analytics
+- **Descriptive Analytics** is the examination of data or content, usually manually performed, to answer the question “What happened?” (or What is happening?), characterized by traditional business intelligence (BI) and visualizations such as pie charts, bar charts, line graphs, tables, or generated narratives.
+
+## Predictive analytics
+- **Predictive analytics** is a branch of advanced analytics that makes predictions about future outcomes using historical data combined with statistical modeling, data mining techniques and machine learning. Companies employ predictive analytics to find patterns in this data to identify risks and opportunities.
+
+## Cyber analytics
+- **Cyber analytics** involve the use of algorithms, statistical analysis, behavioral analytics, machine learning, and other classes of analysis to solve cybersecurity problems in a way that traditional security controls cannot.
+
 ## Does AWS provide analytics?
 - **AWS is the fastest and most cost-effective place to store and analyze data**. AWS analytics tools are purpose-built to help you quickly extract data insight using the most appropriate tool for the job, and optimized to give you the best performance, scale, and cost for your needs.
 
